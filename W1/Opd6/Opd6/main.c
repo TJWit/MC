@@ -24,7 +24,7 @@ int main(void)
 	
     while (1) 
     {
-		if (PINC & 0x01){
+		if (PINC & 1 << 0){
 			state = (state + 1) % 2;
 			}
 		
