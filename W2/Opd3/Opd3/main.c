@@ -133,7 +133,7 @@ ISR(INT2_vect) {
 
 int main( void ) {
 	// Init I/O
-	DDRD = 0xFF;
+	DDRD = 0x80;
 	EICRA |= 0x3C;
 	EIMSK |= 0x06;
 	
