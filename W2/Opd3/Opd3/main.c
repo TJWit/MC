@@ -8,6 +8,7 @@
 
 #define F_CPU 8e6
 #include <avr/io.h>
+#include <string.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
 
@@ -95,15 +96,53 @@ void lcd_write_command(unsigned char byte)
 	lcd_strobe_lcd_e();
 }
 
+void lcd_clear(void) {
+	lcd_write_command(0x00);
+	lcd_write_command(0x01);  // Clear display command
+	_delay_ms(2);            // Wait for clear operation to complete
+	lcd_write_command(0x80);  // Move cursor to home position
+}
+
+const char* table[16] = {"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"};
+
+void display(int digit) {
+    lcd_clear();
+	
+	if (digit <= 15) {
+		char* string = table[digit];  // Safe assignment of const char*
+		lcd_write_string(string);
+		} else if (digit < 0) {
+		lcd_write_string("E");
+		} else {
+		lcd_write_string("E");
+	}
+}
+
+volatile int number = 0;
+
+ISR(INT1_vect) {
+	number++;
+	display(number);
+}
+
+ISR(INT2_vect) {
+	number--;
+	display(number);
+}
+
+
 int main( void ) {
 	// Init I/O
-	DDRD = 0xFF;			// PORTD(7) output, PORTD(6:0) input
-
-	// Init LCD
+	DDRD = 0xFF;
+	EICRA |= 0x3C;
+	EIMSK |= 0x06;
+	
+	sei();
+	
 	init_4bits_mode();
-
-	// Write sample string
-	lcd_write_string("Yedi you are");
+	lcd_clear();
+	
+	display(number);
 
 	// Loop forever
 	while (1) {
