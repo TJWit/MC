@@ -8,7 +8,7 @@
 #define F_CPU 8e6
 
 #include <avr/io.h>
-#include <avr/delay.h>
+#include <util/delay.h>
 #include "lcd.h"
 
 void wait(int ms) {
@@ -21,19 +21,13 @@ void wait(int ms) {
 int main(void)
 {
 	init();
-	int i = 0;
-	char buffer[10];
 	
 	display_text("Test");
-	
-	wait(10000);
-	
+	wait(1000);
+	set_cursor(5);
+	display_text("Hello World");
     while (1) 
     {
-		sprintf(buffer, "%d", i);
-		display_text(i);
-		wait(1000);
-		i++;
     }
 }
 
