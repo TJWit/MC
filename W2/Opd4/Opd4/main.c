@@ -34,7 +34,7 @@ PATTERN_STRUCT pattern[] = {
 
 int main( void )
 {
-	DDRA = 0xFF;					// PORTA all output
+	DDRA = 0xFF; // PORTA all output
 		
 	while (1) {
 		// Set index to begin of pattern array
