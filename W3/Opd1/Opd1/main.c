@@ -28,13 +28,14 @@ int main(void)
 	DDRD &= ~BIT(7);
 	TCCR2 = 0b00000111;
 	
-	display_text("Teller: ");
+	display_text("Teller: ", true);
 	
     while (1) 
     {
 	    char buffer[10];
-	    sprintf(buffer, "Teller: %03d", TCNT2);
-	    display_text(buffer);
+	    sprintf(buffer, "%03d", TCNT2);
+		set_cursor(8);
+	    display_text(buffer, false);
 		wait(100);
     }
 }

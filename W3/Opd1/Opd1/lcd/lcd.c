@@ -9,6 +9,7 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
+#include <stdbool.h>
 
 #define LCD_E 	3
 #define LCD_RS	2
@@ -104,8 +105,10 @@ void init() {
 	lcd_clear();
 }
 
-void display_text(char *str) {
-	lcd_clear();
+void display_text(char *str, bool clear) {
+	if (clear) {
+		lcd_clear();
+	}
 	lcd_write_command(0x80 + location);
 	lcd_write_string(str);
 }
