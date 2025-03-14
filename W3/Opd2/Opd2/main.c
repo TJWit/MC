@@ -10,9 +10,10 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
+volatile static uint8_t state = 0;
+
 // Timer2 interrupt handler
 ISR(TIMER2_COMP_vect) {
-	static uint8_t state = 0;
 	
 	switch(state) {
 		case 0: // Hoog voor 15ms
