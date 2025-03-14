@@ -16,13 +16,13 @@ ISR(TIMER2_COMP_vect) {
 	
 	switch(state) {
 		case 0: // Hoog voor 15ms
-		PORTD |= (1 << PD7);  // Zet PD7 hoog
+		PORTD |= (1 << 7);  // Zet PD7 hoog
 		OCR2 = 117;           // Reset timer voor 15ms
 		state = 1;
 		break;
 		
 		case 1: // Laag voor 25ms
-		PORTD &= ~(1 << PD7); // Zet PD7 laag
+		PORTD &= ~(1 << 7); // Zet PD7 laag
 		OCR2 = 195;           // Reset timer voor 25ms
 		state = 0;
 		break;
@@ -31,12 +31,13 @@ ISR(TIMER2_COMP_vect) {
 
 int main(void) {
 	// Configureer PORTD.7 als output
-	DDRD |= (1 << PD7);
+	DDRD |= (1 << 7);
 	
 	// Timer2 configuratie
-	TCCR2 = (1<<WGM21) | (1<<CS22) | (1<<CS20);  // CTC mode, prescaler 1024
+	TCCR2 = 0b00001101;  // CTC mode, prescaler 1024
+	TCNT2 = 0;
 	OCR2 = 117;  // Begin met 15ms interval
-	TIMSK |= (1<<OCIE2);  // Enable Timer2 compare interrupt
+	TIMSK |= (1<<7);  // Enable Timer2 compare interrupt
 	sei();  // Enable global interrupts
 	
 	while(1) {
