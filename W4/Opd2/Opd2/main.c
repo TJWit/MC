@@ -1,7 +1,7 @@
 /*
- * Opd1.c
+ * Opd2.c
  *
- * Created: 14-3-2025 13:11:24
+ * Created: 14-3-2025 14:12:33
  * Author : Kersjan14
  */ 
 
@@ -17,17 +17,25 @@ void wait(int ms) {
 }
 
 void setupADC() {
-	ADMUX = 0b01100000;
+	ADMUX = 0b11100000;
 	ADCSRA = 0b11100110;
 }
 
 int main(void)
-{	
+{
+	DDRA = 0xFF;
+	DDRB = 0xFF;
+	
 	setupADC();
 	
     /* Replace with your application code */
     while (1) 
     {
+	    PORTA = ADCL;
+	    PORTB = ADCH;
+
+		wait(100);
+
     }
 }
 
