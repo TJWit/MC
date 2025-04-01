@@ -84,9 +84,7 @@ uint8_t read_dht11(dht_data *data) {
 	
 	// Wait for response
 	while ((DHT_IN & (1 << DHT_PIN)));  // Wait for low
-	PORTA = 0x01;
 	while (!(DHT_IN & (1 << DHT_PIN))); // Wait for high
-	PORTA = 0x02;
 	
 	
 	// Read data bytes
@@ -115,7 +113,6 @@ uint8_t read_dht11(dht_data *data) {
 
 int main(void) {
 	dht_data sensor_data;
-	DDRA = 0xFF;
 	lcd_init();
 	char buffer[20];
 	
@@ -138,7 +135,6 @@ int main(void) {
 			lcd_display_text("error", true);
 		}
 		
-		//request_start();
 		wait(1500);
 	}
 }
