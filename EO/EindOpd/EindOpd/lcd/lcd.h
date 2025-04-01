@@ -14,6 +14,7 @@
 void lcd_init();
 void lcd_display_text(char *str, bool clear);
 void lcd_set_cursor(int position);
+void lcd_set_line(int line);
 void lcd_clear();
 
 #endif /* LCD_H_ */

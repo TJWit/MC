@@ -15,6 +15,7 @@
 #define LCD_RS	2
 
 volatile int location = 0;
+volatile int line = 0x80;
 
 void lcd_strobe_lcd_e(void);
 void init_4bits_mode(void);
@@ -109,7 +110,7 @@ void lcd_display_text(char *str, bool clear) {
 	if (clear) {
 		lcd_clear();
 	}
-	lcd_write_command(0x80 + location);
+	lcd_write_command(line + location);
 	lcd_write_string(str);
 }
 
@@ -119,4 +120,15 @@ void lcd_set_cursor(int position) {
 		return;  // Ongeldige positie
 	}
 	location = position;
+}
+
+void lcd_set_line(int input) {
+	if (input == 0) {
+		line = 0x80;
+	} else if (input == 1) {
+		line = 0xC0;
+	} else {
+		return;
+	}
+	lcd_write_command(line);
 }
